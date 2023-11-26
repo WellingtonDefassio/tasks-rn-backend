@@ -1,4 +1,4 @@
-package wdefassio.io.tasksbackend.controller;
+package wdefassio.io.tasksbackend.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
