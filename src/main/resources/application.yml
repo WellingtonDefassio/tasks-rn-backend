@@ -1,0 +1,11 @@
+server:
+  port: 3000
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tasks
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
