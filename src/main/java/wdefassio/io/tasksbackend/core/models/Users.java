@@ -2,12 +2,16 @@ package wdefassio.io.tasksbackend.core.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
