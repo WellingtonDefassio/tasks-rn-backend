@@ -21,6 +21,4 @@ public class RegistrationController {
     public ResponseEntity<?> registration(@RequestBody @Validated UserRegistrationRequest user) {
         return ResponseEntity.ok(userService.registerUser(user));
     }
-
-
 }
