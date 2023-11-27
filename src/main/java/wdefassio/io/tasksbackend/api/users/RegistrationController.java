@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import wdefassio.io.tasksbackend.api.dtos.UserRegistrationDTO;
+import wdefassio.io.tasksbackend.api.dtos.UserRegistrationRequest;
 import wdefassio.io.tasksbackend.services.UserService;
 
 @RestController
@@ -18,7 +18,7 @@ public class RegistrationController {
     private final UserService userService;
 
     @PostMapping()
-    public ResponseEntity<?> registration(@RequestBody @Validated UserRegistrationDTO user) {
+    public ResponseEntity<?> registration(@RequestBody @Validated UserRegistrationRequest user) {
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
