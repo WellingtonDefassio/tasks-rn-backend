@@ -1,6 +1,7 @@
 package wdefassio.io.tasksbackend.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import wdefassio.io.tasksbackend.repositories.UserRepository;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -32,6 +34,7 @@ public class UserService {
             Users save = userRepository.save(new Users(null, userDTO.getName(), userDTO.getEmail(), encodePassword, null));
             return ResponseEntity.ok(UserRegistrationResponse.fromModel(save));
         } catch (Exception e) {
+            log.error("Error to create a user with email {} with error {}", userDTO.getEmail(), e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error to create a user");
         }
     }
@@ -49,8 +52,10 @@ public class UserService {
             return ResponseEntity.ok(userLoginResponse);
 
         } catch (BadCredentialsException e) {
+            log.error("Error BadCredential with {}", loginRequest.getEmail());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username or password");
         } catch (Exception e) {
+            log.error("Error to login a user with email {} with error {}", loginRequest.getEmail(), e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
