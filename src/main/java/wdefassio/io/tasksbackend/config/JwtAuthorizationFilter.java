@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import wdefassio.io.tasksbackend.core.models.Users;
+import wdefassio.io.tasksbackend.services.dto.TokenizedUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,35 +34,34 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
         this.mapper = mapper;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Map<String, Object> errorDetails = new HashMap<>();
 
         try {
             String accessToken = jwtUtil.resolveToken(request);
-            if (accessToken == null ) {
+            if (accessToken == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
-            log.info("token : "+accessToken);
+            log.info("token : " + accessToken);
             Claims claims = jwtUtil.resolveClaims(request);
 
-            if(claims != null && jwtUtil.validateClaims(claims)){
+            if (claims != null && jwtUtil.validateClaims(claims)) {
                 String email = claims.getSubject();
-                log.info("email : "+email);
+                String name = (String) claims.get("name");
+                Integer id = (Integer) claims.get("id");
+                Users users = new Users(Long.valueOf(id), name, email, null, null);
+                TokenizedUser tokenize = TokenizedUser.tokenize(users);
                 Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(email,"",new ArrayList<>());
+                        new UsernamePasswordAuthenticationToken(tokenize, "", new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-        }catch (Exception e){
-            errorDetails.put("message", "Authentication Error");
-            errorDetails.put("details",e.getMessage());
+        } catch (Exception e) {
+            log.error("access token error: {}" + e.getMessage());
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
-            mapper.writeValue(response.getWriter(), errorDetails);
-
         }
         filterChain.doFilter(request, response);
     }

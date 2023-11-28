@@ -9,13 +9,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import wdefassio.io.tasksbackend.api.dtos.UserLoginRequest;
-import wdefassio.io.tasksbackend.api.dtos.UserLoginResponse;
-import wdefassio.io.tasksbackend.api.dtos.UserRegistrationRequest;
-import wdefassio.io.tasksbackend.api.dtos.UserRegistrationResponse;
+import wdefassio.io.tasksbackend.api.dtos.*;
 import wdefassio.io.tasksbackend.config.JwtUtil;
 import wdefassio.io.tasksbackend.core.models.Users;
 import wdefassio.io.tasksbackend.repositories.UserRepository;
+import wdefassio.io.tasksbackend.services.dto.TokenizedUser;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,8 +46,10 @@ public class UserService {
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
             String email = authentication.getName();
-            Users user = userRepository.findUsersByEmail(email).get().tokenizedUSer();
-            String token = jwtUtil.createToken(user);
+            Optional<Users> usersByEmail = userRepository.findUsersByEmail(email);
+            Users user = usersByEmail.orElseThrow(() -> new BadCredentialsException("user not found"));
+            TokenizedUser tokenize = TokenizedUser.tokenize(user);
+            String token = jwtUtil.createToken(tokenize);
             UserLoginResponse userLoginResponse = new UserLoginResponse(email, token);
 
             return ResponseEntity.ok(userLoginResponse);
