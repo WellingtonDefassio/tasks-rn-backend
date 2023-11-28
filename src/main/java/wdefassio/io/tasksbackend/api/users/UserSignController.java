@@ -7,18 +7,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import wdefassio.io.tasksbackend.api.dtos.UserLoginRequest;
 import wdefassio.io.tasksbackend.api.dtos.UserRegistrationRequest;
 import wdefassio.io.tasksbackend.services.UserService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/registration")
-public class RegistrationController {
+@RequestMapping("/api/sign")
+public class UserSignController {
 
     private final UserService userService;
 
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<?> registration(@RequestBody @Validated UserRegistrationRequest user) {
-        return ResponseEntity.ok(userService.registerUser(user));
+        return userService.registerUser(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginRequest loginRequest) {
+        return userService.login(loginRequest);
     }
 }
