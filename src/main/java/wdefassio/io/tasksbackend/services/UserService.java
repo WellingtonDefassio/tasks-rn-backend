@@ -24,7 +24,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BcryptService bcryptService;
-
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
@@ -41,11 +40,13 @@ public class UserService {
 
     public ResponseEntity<?> login(UserLoginRequest loginRequest) {
         try {
+
+            //Atenticação é realizada aqui!
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            String email = authentication.getName();
 
-            Users user = new Users(null, "test", email, null, null);
+            String email = authentication.getName();
+            Users user = userRepository.findUsersByEmail(email).get().tokenizedUSer();
             String token = jwtUtil.createToken(user);
             UserLoginResponse userLoginResponse = new UserLoginResponse(email, token);
 

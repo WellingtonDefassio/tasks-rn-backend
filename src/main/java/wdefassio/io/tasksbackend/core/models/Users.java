@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
@@ -27,5 +28,10 @@ public class Users {
     private String password;
     @OneToMany(mappedBy = "users")
     private List<Tasks> tasks;
+
+
+    public Users tokenizedUSer() {
+        return new Users(id, name, email, null, tasks);
+    }
 
 }
