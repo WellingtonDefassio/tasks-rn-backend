@@ -1,4 +1,4 @@
-package wdefassio.io.tasksbackend.api.users;
+package wdefassio.io.tasksbackend.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import wdefassio.io.tasksbackend.api.dtos.UserLoginRequest;
-import wdefassio.io.tasksbackend.api.dtos.UserRegistrationRequest;
+import wdefassio.io.tasksbackend.api.dtos.tasks.UserLoginRequest;
+import wdefassio.io.tasksbackend.api.dtos.tasks.UserRegistrationRequest;
 import wdefassio.io.tasksbackend.services.UserService;
 
 @RestController

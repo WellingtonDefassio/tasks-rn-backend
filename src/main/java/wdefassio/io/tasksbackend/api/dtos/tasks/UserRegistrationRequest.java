@@ -1,4 +1,4 @@
-package wdefassio.io.tasksbackend.api.dtos;
+package wdefassio.io.tasksbackend.api.dtos.tasks;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package wdefassio.io.tasksbackend.services;
+package wdefassio.io.tasksbackend.services.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;

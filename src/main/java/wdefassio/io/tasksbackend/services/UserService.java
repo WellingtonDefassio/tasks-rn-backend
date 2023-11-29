@@ -9,11 +9,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import wdefassio.io.tasksbackend.api.dtos.*;
+import wdefassio.io.tasksbackend.api.dtos.tasks.UserLoginRequest;
+import wdefassio.io.tasksbackend.api.dtos.tasks.UserLoginResponse;
+import wdefassio.io.tasksbackend.api.dtos.tasks.UserRegistrationRequest;
+import wdefassio.io.tasksbackend.api.dtos.tasks.UserRegistrationResponse;
 import wdefassio.io.tasksbackend.config.JwtUtil;
 import wdefassio.io.tasksbackend.core.models.Users;
 import wdefassio.io.tasksbackend.repositories.UserRepository;
 import wdefassio.io.tasksbackend.services.dto.TokenizedUser;
+import wdefassio.io.tasksbackend.services.security.BcryptService;
 
 import java.util.Optional;
 
