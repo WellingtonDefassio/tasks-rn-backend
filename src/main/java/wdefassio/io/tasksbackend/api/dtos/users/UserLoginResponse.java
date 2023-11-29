@@ -1,4 +1,4 @@
-package wdefassio.io.tasksbackend.api.dtos.tasks;
+package wdefassio.io.tasksbackend.api.dtos.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

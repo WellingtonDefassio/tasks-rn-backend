@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import wdefassio.io.tasksbackend.core.models.Users;
-import wdefassio.io.tasksbackend.services.dto.TokenizedUser;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -23,10 +22,9 @@ public class JwtUtil {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 
-    public String createToken(TokenizedUser tokenizedUser) {
-        Claims claims = Jwts.claims().setSubject(tokenizedUser.getEmail());
-        claims.put("name", tokenizedUser.getName());
-        claims.put("id", tokenizedUser.getId());
+    public String createToken(Users users) {
+        Claims claims = Jwts.claims().setSubject(users.getEmail());
+        claims.put("id", users.getId());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()

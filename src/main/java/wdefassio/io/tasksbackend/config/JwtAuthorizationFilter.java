@@ -9,30 +9,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import wdefassio.io.tasksbackend.core.models.Users;
-import wdefassio.io.tasksbackend.services.dto.TokenizedUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 @Slf4j
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final ObjectMapper mapper;
 
     public JwtAuthorizationFilter(JwtUtil jwtUtil, ObjectMapper mapper) {
         this.jwtUtil = jwtUtil;
-        this.mapper = mapper;
     }
 
     @Override
@@ -48,7 +41,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Claims claims = jwtUtil.resolveClaims(request);
 
             if (claims != null && jwtUtil.validateClaims(claims)) {
-                String email = claims.getSubject();
                 String id = (String) claims.get("id");
                 Authentication authentication =
                         new UsernamePasswordAuthenticationToken(id, "", new ArrayList<>());

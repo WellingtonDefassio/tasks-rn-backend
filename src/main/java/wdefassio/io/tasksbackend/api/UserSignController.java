@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import wdefassio.io.tasksbackend.api.dtos.tasks.UserLoginRequest;
-import wdefassio.io.tasksbackend.api.dtos.tasks.UserRegistrationRequest;
+import wdefassio.io.tasksbackend.api.dtos.users.UserLoginRequest;
+import wdefassio.io.tasksbackend.api.dtos.users.UserRegistrationRequest;
 import wdefassio.io.tasksbackend.services.UserService;
 
 @RestController
