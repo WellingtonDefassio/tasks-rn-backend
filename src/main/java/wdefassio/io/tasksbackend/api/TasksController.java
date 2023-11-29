@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTasksRequest;
+import wdefassio.io.tasksbackend.api.dtos.tasks.FindTasksResponse;
 import wdefassio.io.tasksbackend.api.dtos.tasks.GetTasksRequest;
 import wdefassio.io.tasksbackend.core.models.Tasks;
 import wdefassio.io.tasksbackend.services.TaskService;
@@ -25,7 +26,7 @@ public class TasksController {
 
 
     @PostMapping("/find")
-    public ResponseEntity<List<Tasks>> find(Principal principal, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) GetTasksRequest getTasksRequest) {
+    public ResponseEntity<List<FindTasksResponse>> find(Principal principal, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) GetTasksRequest getTasksRequest) {
         return taskService.getByDate(principal.getName(), getTasksRequest.getEstimateAt());
     }
 
