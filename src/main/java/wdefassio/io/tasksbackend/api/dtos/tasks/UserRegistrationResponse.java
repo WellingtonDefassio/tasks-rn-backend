@@ -7,11 +7,11 @@ import wdefassio.io.tasksbackend.core.models.Users;
 @Data
 @AllArgsConstructor
 public class UserRegistrationResponse {
-    private Long id;
+    private String id;
     private String name;
     private String email;
 
     public static UserRegistrationResponse fromModel(Users user) {
-        return new UserRegistrationResponse(user.getId(), user.getName(), user.getEmail());
+        return new UserRegistrationResponse(user.getId().toString(), user.getName(), user.getEmail());
     }
 }

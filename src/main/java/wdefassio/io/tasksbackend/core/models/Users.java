@@ -7,15 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Users {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    private Long id;
+    private UUID id;
     @NotBlank
     @Column(nullable = false)
     private String name;
@@ -28,4 +29,8 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private List<Tasks> tasks;
 
+
+    public Users(UUID id) {
+        this.id = id;
+    }
 }

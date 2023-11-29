@@ -3,18 +3,20 @@ package wdefassio.io.tasksbackend.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTasksRequest;
 import wdefassio.io.tasksbackend.api.dtos.users.GetTasksRequest;
+import wdefassio.io.tasksbackend.core.models.Tasks;
 import wdefassio.io.tasksbackend.services.TaskService;
 import wdefassio.io.tasksbackend.services.dto.TokenizedUser;
 
 import java.security.Principal;
-import java.time.LocalDate;
+import java.util.List;
 
-@RestController("/api/tasks")
+@RestController
+@RequestMapping("/api/tasks")
 @RequiredArgsConstructor
 public class TasksController {
 
@@ -22,11 +24,13 @@ public class TasksController {
     private final ObjectMapper mapper;
 
 
-    @GetMapping()
-    public ResponseEntity getTask(Principal principal, @RequestBody GetTasksRequest getTasksRequest) throws JsonProcessingException {
-        TokenizedUser tokenizedUser = mapper.readValue(principal.getName(), TokenizedUser.class);
-        taskService.getByDate(tokenizedUser, getTasksRequest.getEstimateAt());
+    @PostMapping("/get")
+    public ResponseEntity<List<Tasks>> get(Principal principal, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) GetTasksRequest getTasksRequest) throws JsonProcessingException {
+        return taskService.getByDate(principal.getName(), getTasksRequest.getEstimateAt());
+    }
 
-        return ResponseEntity.ok().build();
+    @PostMapping("/create")
+    public ResponseEntity create(Principal principal, @RequestBody CreateTasksRequest createTasksRequest) throws JsonProcessingException {
+        return taskService.createTask(principal.getName(), createTasksRequest);
     }
 }

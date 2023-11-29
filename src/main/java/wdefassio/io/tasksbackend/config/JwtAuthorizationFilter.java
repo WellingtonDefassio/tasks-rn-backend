@@ -49,12 +49,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             if (claims != null && jwtUtil.validateClaims(claims)) {
                 String email = claims.getSubject();
-                String name = (String) claims.get("name");
-                Integer id = (Integer) claims.get("id");
-                Users users = new Users(Long.valueOf(id), name, email, null, null);
-                TokenizedUser tokenize = TokenizedUser.tokenize(users);
+                String id = (String) claims.get("id");
                 Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(tokenize, "", new ArrayList<>());
+                        new UsernamePasswordAuthenticationToken(id, "", new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
