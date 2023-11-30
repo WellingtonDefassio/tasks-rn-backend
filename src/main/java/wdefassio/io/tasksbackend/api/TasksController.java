@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wdefassio.io.tasksbackend.api.dtos.DeleteTaskRequest;
+import wdefassio.io.tasksbackend.api.dtos.tasks.DeleteTaskRequest;
 import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTasksRequest;
+import wdefassio.io.tasksbackend.api.dtos.tasks.DoneTaskRequest;
 import wdefassio.io.tasksbackend.api.dtos.tasks.FindTasksResponse;
 import wdefassio.io.tasksbackend.api.dtos.tasks.GetTasksRequest;
 import wdefassio.io.tasksbackend.services.TaskService;
@@ -34,5 +35,10 @@ public class TasksController {
     @DeleteMapping("/delete")
     public ResponseEntity delete(Principal principal, @RequestBody DeleteTaskRequest deleteTaskRequest) {
         return taskService.deleteTask(principal.getName(), deleteTaskRequest);
+    }
+
+    @PutMapping("/done")
+    public ResponseEntity done(Principal principal, @RequestBody DoneTaskRequest doneTaskRequest) {
+        return taskService.doneTask(principal.getName(), doneTaskRequest);
     }
 }

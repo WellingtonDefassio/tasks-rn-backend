@@ -1,12 +1,10 @@
-package wdefassio.io.tasksbackend.api.dtos;
+package wdefassio.io.tasksbackend.api.dtos.tasks;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 public class DeleteTaskRequest {
     private UUID id;
 }

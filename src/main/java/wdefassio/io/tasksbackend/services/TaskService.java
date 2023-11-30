@@ -1,19 +1,18 @@
 package wdefassio.io.tasksbackend.services;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import wdefassio.io.tasksbackend.api.dtos.DeleteTaskRequest;
-import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTaskResponse;
-import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTasksRequest;
-import wdefassio.io.tasksbackend.api.dtos.tasks.FindTasksResponse;
+import wdefassio.io.tasksbackend.api.dtos.tasks.*;
 import wdefassio.io.tasksbackend.core.models.Tasks;
 import wdefassio.io.tasksbackend.repositories.TaskRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -45,4 +44,25 @@ public class TaskService {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    public ResponseEntity doneTask(String name, DoneTaskRequest doneTaskRequest) {
+        try {
+            Tasks task = taskRepository.getTask(doneTaskRequest.getId(), UUID.fromString(name));
+            Optional<Tasks> opTask = Optional.of(task);
+            Tasks tasks = opTask.orElseThrow(ChangeSetPersister.NotFoundException::new);
+            if (Objects.isNull(tasks.getDoneAt())) {
+                tasks.setDoneAt(LocalDate.now());
+                taskRepository.save(tasks);
+            } else {
+                tasks.setDoneAt(null);
+                taskRepository.save(tasks);
+            }
+            return ResponseEntity.ok(DoneTaskResponse.fromModel(tasks));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+
+    }
+
 }
