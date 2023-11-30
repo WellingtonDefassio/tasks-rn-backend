@@ -1,6 +1,9 @@
 package wdefassio.io.tasksbackend.repositories;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import wdefassio.io.tasksbackend.core.models.Tasks;
 
 import java.time.LocalDate;
@@ -10,7 +13,9 @@ import java.util.UUID;
 public interface TaskRepository extends JpaRepository<Tasks, UUID> {
 
     List<Tasks> getAllByUsers_IdAndEstimateAtIsLessThanEqual(UUID id, LocalDate date);
-    List<Tasks> getAllByUsers_Id(UUID id);
-    void deleteById(UUID id);
+    @Modifying
+    @Transactional
+    @Query("delete from Tasks t where t.id = :id and t.users.id = :userId")
+    void deleteTask(UUID id, UUID userId);
 
 }

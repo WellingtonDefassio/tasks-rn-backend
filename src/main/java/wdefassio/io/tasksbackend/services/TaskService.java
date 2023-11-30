@@ -1,5 +1,6 @@
 package wdefassio.io.tasksbackend.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,15 +36,11 @@ public class TaskService {
         return new ResponseEntity<>(createTaskResponse, HttpStatus.CREATED);
     }
 
+
     public ResponseEntity deleteTask(String name, DeleteTaskRequest deleteTaskRequest) {
         try {
-            List<Tasks> allByUsersId = taskRepository.getAllByUsers_Id(UUID.fromString(name));
-            boolean isValidTask = allByUsersId.stream().anyMatch(tasks -> tasks.getId().equals(deleteTaskRequest.getId()));
-            if (isValidTask) {
-                taskRepository.deleteById(deleteTaskRequest.getId());
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.badRequest().build();
+            taskRepository.deleteTask(deleteTaskRequest.getId(), UUID.fromString(name));
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
