@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import wdefassio.io.tasksbackend.api.dtos.DeleteTaskRequest;
 import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTaskResponse;
 import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTasksRequest;
 import wdefassio.io.tasksbackend.api.dtos.tasks.FindTasksResponse;
@@ -32,5 +33,19 @@ public class TaskService {
         Tasks tasks = taskRepository.save(createTasksRequest.toModel(userId));
         CreateTaskResponse createTaskResponse = CreateTaskResponse.fromModel(tasks);
         return new ResponseEntity<>(createTaskResponse, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity deleteTask(String name, DeleteTaskRequest deleteTaskRequest) {
+        try {
+            List<Tasks> allByUsersId = taskRepository.getAllByUsers_Id(UUID.fromString(name));
+            boolean isValidTask = allByUsersId.stream().anyMatch(tasks -> tasks.getId().equals(deleteTaskRequest.getId()));
+            if (isValidTask) {
+                taskRepository.deleteById(deleteTaskRequest.getId());
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

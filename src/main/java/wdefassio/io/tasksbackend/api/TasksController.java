@@ -1,17 +1,13 @@
 package wdefassio.io.tasksbackend.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import wdefassio.io.tasksbackend.api.dtos.DeleteTaskRequest;
 import wdefassio.io.tasksbackend.api.dtos.tasks.CreateTasksRequest;
 import wdefassio.io.tasksbackend.api.dtos.tasks.FindTasksResponse;
 import wdefassio.io.tasksbackend.api.dtos.tasks.GetTasksRequest;
-import wdefassio.io.tasksbackend.core.models.Tasks;
 import wdefassio.io.tasksbackend.services.TaskService;
 
 import java.security.Principal;
@@ -33,5 +29,10 @@ public class TasksController {
     @PostMapping("/create")
     public ResponseEntity create(Principal principal, @RequestBody CreateTasksRequest createTasksRequest) {
         return taskService.createTask(principal.getName(), createTasksRequest);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity delete(Principal principal, @RequestBody DeleteTaskRequest deleteTaskRequest) {
+        return taskService.deleteTask(principal.getName(), deleteTaskRequest);
     }
 }

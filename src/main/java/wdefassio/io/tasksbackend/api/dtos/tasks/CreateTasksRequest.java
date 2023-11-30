@@ -1,6 +1,7 @@
 package wdefassio.io.tasksbackend.api.dtos.tasks;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import wdefassio.io.tasksbackend.core.models.Tasks;
 import wdefassio.io.tasksbackend.core.models.Users;
@@ -13,6 +14,7 @@ public class CreateTasksRequest {
     @NotBlank
     private String description;
 
+    @NotNull
     private LocalDate estimateAt;
 
 
