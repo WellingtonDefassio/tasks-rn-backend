@@ -2,10 +2,12 @@ package wdefassio.io.tasksbackend.config;
 
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import wdefassio.io.tasksbackend.core.models.Users;
 
+import java.net.http.HttpRequest;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class JwtUtil {
 
     private final String secret_key = "w*mjsbbJZ3gG%fbMHM*Kpn%2GnbF8AC8P*6j9k!#%W!H3z&&TqUkUnTP2AU^ciknCURQWgA8*KXuVQpnpapRkM";
-    private long accessTokenValidity = 60 * 60 * 6000; //6 horas
+    private long accessTokenValidity = 60 * 60 * 60; //6 mim
     private final JwtParser jwtParser;
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
@@ -51,6 +53,15 @@ public class JwtUtil {
         } catch (Exception ex) {
             req.setAttribute("invalid", ex.getMessage());
             throw ex;
+        }
+    }
+
+    public Boolean validateToken(HttpServletRequest request) {
+        try {
+            resolveToken(request);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
         }
     }
 

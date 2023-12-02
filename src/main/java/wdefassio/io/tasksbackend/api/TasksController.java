@@ -13,6 +13,7 @@ import wdefassio.io.tasksbackend.services.TaskService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -32,9 +33,9 @@ public class TasksController {
         return taskService.createTask(principal.getName(), createTasksRequest);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity delete(Principal principal, @RequestBody DeleteTaskRequest deleteTaskRequest) {
-        return taskService.deleteTask(principal.getName(), deleteTaskRequest);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(Principal principal, @PathVariable UUID id) {
+        return taskService.deleteTask(principal.getName(), id);
     }
 
     @PutMapping("/done")

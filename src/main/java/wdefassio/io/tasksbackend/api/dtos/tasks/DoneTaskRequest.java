@@ -6,8 +6,6 @@ import java.util.UUID;
 
 @Data
 public class DoneTaskRequest {
-
-
     private UUID id;
 
 }

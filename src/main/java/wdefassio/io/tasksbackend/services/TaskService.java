@@ -39,9 +39,9 @@ public class TaskService {
     }
 
 
-    public ResponseEntity deleteTask(String name, DeleteTaskRequest deleteTaskRequest) {
+    public ResponseEntity deleteTask(String name, UUID id) {
         try {
-            taskRepository.deleteTask(deleteTaskRequest.getId(), UUID.fromString(name));
+            taskRepository.deleteTask(id, UUID.fromString(name));
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
