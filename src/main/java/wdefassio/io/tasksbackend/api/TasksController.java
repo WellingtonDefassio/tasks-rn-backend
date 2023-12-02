@@ -24,7 +24,7 @@ public class TasksController {
 
     @PostMapping("/find")
     public ResponseEntity<List<FindTasksResponse>> find(Principal principal, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) GetTasksRequest getTasksRequest) {
-        return taskService.getByDate(principal.getName(), getTasksRequest.getEstimateAt());
+        return taskService.getByDate(principal.getName(), getTasksRequest.getEstimatedAt());
     }
 
     @PostMapping("/create")

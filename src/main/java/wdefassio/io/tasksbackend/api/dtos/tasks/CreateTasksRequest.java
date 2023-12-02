@@ -15,10 +15,10 @@ public class CreateTasksRequest {
     private String description;
 
     @NotNull
-    private LocalDate estimateAt;
+    private LocalDate estimatedAt;
 
 
     public Tasks toModel(String userId) {
-        return new Tasks(null, description, estimateAt, null, new Users(UUID.fromString(userId)));
+        return new Tasks(null, description, estimatedAt, null, new Users(UUID.fromString(userId)));
     }
 }

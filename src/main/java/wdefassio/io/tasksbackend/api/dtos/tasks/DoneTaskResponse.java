@@ -20,6 +20,6 @@ public class DoneTaskResponse {
     private LocalDate doneAt;
 
     public static DoneTaskResponse fromModel(Tasks tasks) {
-        return new DoneTaskResponse(tasks.getId(), tasks.getDescription(), tasks.getEstimateAt(), tasks.getDoneAt());
+        return new DoneTaskResponse(tasks.getId(), tasks.getDescription(), tasks.getEstimatedAt(), tasks.getDoneAt());
     }
 }

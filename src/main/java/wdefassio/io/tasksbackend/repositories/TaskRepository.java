@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface TaskRepository extends JpaRepository<Tasks, UUID> {
 
-    List<Tasks> getAllByUsers_IdAndEstimateAtIsLessThanEqual(UUID id, LocalDate date);
+    List<Tasks> getAllByUsers_IdAndEstimatedAtIsLessThanEqual(UUID id, LocalDate date);
     @Modifying
     @Transactional
     @Query("delete from Tasks t where t.id = :id and t.users.id = :userId")

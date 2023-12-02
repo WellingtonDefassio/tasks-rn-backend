@@ -1,5 +1,6 @@
 package wdefassio.io.tasksbackend.core.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,9 @@ public class Tasks {
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
-    private LocalDate estimateAt;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate estimatedAt;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate doneAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

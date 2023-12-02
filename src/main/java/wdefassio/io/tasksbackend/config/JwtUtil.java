@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class JwtUtil {
 
     private final String secret_key = "w*mjsbbJZ3gG%fbMHM*Kpn%2GnbF8AC8P*6j9k!#%W!H3z&&TqUkUnTP2AU^ciknCURQWgA8*KXuVQpnpapRkM";
-    private long accessTokenValidity = 60 * 60 * 1000;
+    private long accessTokenValidity = 60 * 60 * 6000; //6 horas
     private final JwtParser jwtParser;
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
@@ -26,7 +26,7 @@ public class JwtUtil {
         Claims claims = Jwts.claims().setSubject(users.getEmail());
         claims.put("id", users.getId());
         Date tokenCreateTime = new Date();
-        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
+        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MILLISECONDS.toMillis(accessTokenValidity));
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(tokenValidity)

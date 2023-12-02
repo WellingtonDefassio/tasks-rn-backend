@@ -1,6 +1,7 @@
 package wdefassio.io.tasksbackend.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TaskService {
 
     private final TaskRepository taskRepository;
@@ -24,8 +26,9 @@ public class TaskService {
 
     public ResponseEntity<List<FindTasksResponse>> getByDate(String tokenizedUser, LocalDate estimateAt) {
         LocalDate findDate = estimateAt != null ? estimateAt : LocalDate.now();
-        List<Tasks> tasksList = taskRepository.getAllByUsers_IdAndEstimateAtIsLessThanEqual(UUID.fromString(tokenizedUser), findDate);
+        List<Tasks> tasksList = taskRepository.getAllByUsers_IdAndEstimatedAtIsLessThanEqual(UUID.fromString(tokenizedUser), findDate);
         List<FindTasksResponse> findTasksResponses = FindTasksResponse.fromModel(tasksList);
+        log.info("{}", findTasksResponses);
         return ResponseEntity.ok(findTasksResponses);
     }
 
